@@ -5,7 +5,7 @@ import mapStoreToProps from '../../redux/mapStoreToProps';
 class LoginForm extends Component {
   state = {
     username: '',
-    password: '',
+    password: ''
   };
 
   login = (event) => {
@@ -16,7 +16,7 @@ class LoginForm extends Component {
         type: 'LOGIN',
         payload: {
           username: this.state.username,
-          password: this.state.password,
+          password: this.state.password
         },
       });
     } else {

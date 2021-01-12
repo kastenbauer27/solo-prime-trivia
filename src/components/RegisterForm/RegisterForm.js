@@ -6,6 +6,7 @@ class RegisterForm extends Component {
   state = {
     username: '',
     password: '',
+    email: ''
   };
 
   registerUser = (event) => {
@@ -16,6 +17,7 @@ class RegisterForm extends Component {
       payload: {
         username: this.state.username,
         password: this.state.password,
+        email: this.state.email
       },
     });
   }; // end registerUser
@@ -56,6 +58,18 @@ class RegisterForm extends Component {
               value={this.state.password}
               required
               onChange={this.handleInputChangeFor('password')}
+            />
+          </label>
+        </div>
+        <div>
+          <label htmlFor="email">
+            Email:
+            <input
+              type="text"
+              name="email"
+              value={this.state.email}
+              required
+              onChange={this.handleInputChangeFor('email')}
             />
           </label>
         </div>
