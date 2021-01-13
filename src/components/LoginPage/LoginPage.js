@@ -7,6 +7,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
+        <h2>Ready for some Trivia? Log in or create an account to get started!</h2>
         <LoginForm />
 
         <center>
