@@ -6,8 +6,7 @@ require('dotenv').config();
 
 
 router.get('/', (req, res) => {
-    const queryText = `SELECT trivia_questions.question, trivia_answers.answer FROM trivia_questions
-                        JOIN trivia_answers ON trivia_questions.id = trivia_answers.question_id;`;
+    const queryText = `SELECT * FROM "trivia_questions" ORDER BY "id" ASC`;
     pool.query(queryText).then(result => {
         res.send(result.rows);
     }).catch(err => {
@@ -40,9 +39,19 @@ router.get('/history', (req, res) => {
     })
 });
 
-
 router.post('/', (req, res) => {
-  // POST route code here
-});
+    const queryText = `INSERT INTO "trivia_questions" ("question", "correct_answer", "incorrect1", "incorrect2", "incorrect3")
+                       VALUES ($1, $2, $3, $4, $5);`;
+    const triviaToAdd = req.body;
+    pool.query(queryText, [triviaToAdd.question, triviaToAdd.correct_answer, triviaToAdd.incorrect_answers[0], triviaToAdd.incorrect_answers[1], triviaToAdd.incorrect_answers[2]])
+    .then(response => {
+        res.sendStatus(201);
+    })
+    .catch(err => {
+        console.log('error in adding trivia question to db', err);
+        alert('Unable to add question at this time, please try again later.');
+        res.sendStatus(500);
+    })
+})
 
 module.exports = router;
