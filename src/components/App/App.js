@@ -21,11 +21,11 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import SavedTrivia from '../SavedTrivia/SavedTrivia';
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch({ type: 'FETCH_USER' });
-    this.props.dispatch({ type: 'FETCH_HISTORY_TRIVIA'});
   }
 
   render() {
@@ -61,6 +61,13 @@ class App extends Component {
               exact
               path="/trivia"
               component={TriviaPlay}
+            />
+
+            <ProtectedRoute
+              // logged in shows InfoPage else shows LoginPage
+              exact
+              path="/savedtrivia"
+              component={SavedTrivia}
             />
 
             {/* When a value is supplied for the authRedirect prop the user will

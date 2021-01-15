@@ -30,10 +30,21 @@ function* addTrivia(action) {
     }
 }
 
+function* deleteTrivia(action) {
+    try {
+        console.log(`deleting trivia with id of: ${action.payload}`);
+        yield axios.delete(`/api/trivia/${action.payload}`);
+        yield put({ type: 'FETCH_TRIVIA' });
+    } catch (err) {
+        console.log('error in deleting trivia', err);
+    }
+}
+
 function* triviaSaga() {
     yield takeEvery('FETCH_TRIVIA', fetchTrivia);
     yield takeEvery('FETCH_HISTORY_TRIVIA', fetchHistoryTrivia);
     yield takeEvery('ADD_TRIVIA', addTrivia);
+    yield takeEvery('DELETE_TRIVIA', deleteTrivia);
 }
 
 export default triviaSaga;

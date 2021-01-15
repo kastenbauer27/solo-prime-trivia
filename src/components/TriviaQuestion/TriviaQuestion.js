@@ -11,7 +11,7 @@ class TriviaQuestion extends Component {
             {this.props.store.trivia.map(trivia => {
                 return(
                   <div key={trivia.question}>
-                  <p>{trivia.question}</p>
+                    <p>{trivia.question}</p>
                   <button onClick={(event) => this.props.saveQuestion(event, trivia)}>Save Question</button>
                   <ul>
                     <li>{trivia.correct_answer}</li>

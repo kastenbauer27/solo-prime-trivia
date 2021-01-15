@@ -52,6 +52,19 @@ router.post('/', (req, res) => {
         alert('Unable to add question at this time, please try again later.');
         res.sendStatus(500);
     })
+});
+
+router.delete('/:id', (req, res) => {
+    const questionId = req.params.id;
+    const queryText = `DELETE FROM "trivia_questions" WHERE "id"=$1;`;
+    pool.query(queryText, [questionId])
+    .then(response => {
+        res.sendStatus(200);
+    })
+    .catch(err => {
+        alert('Unable to delete question, please try again later');
+        res.sendStatus(500);
+    })
 })
 
 module.exports = router;

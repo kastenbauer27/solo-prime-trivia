@@ -20,7 +20,7 @@ class TriviaPlay extends Component {
   render() {
     return (
       <div>
-        <p>Playing a new game of trivia</p>
+        <p>Save a question</p>
         <TriviaQuestion saveQuestion={this.saveQuestion} />
       </div>
     )
