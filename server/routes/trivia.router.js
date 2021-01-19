@@ -63,6 +63,24 @@ router.delete('/:id', (req, res) => {
     })
     .catch(err => {
         alert('Unable to delete question, please try again later');
+        console.log('error in deleting from db', err);
+        res.sendStatus(500);
+    })
+})
+
+router.put('/:id', (req, res) => {
+    const questionId = req.params.id;
+    const trivia = req.body;
+    const queryText =  `UPDATE "trivia_questions" 
+                        SET "question"=$1, "correct_answer"=$2, "incorrect1"=$3, "incorrect2"=$4, "incorrect3"=$5
+                        WHERE "trivia_questions".id=$6;`;
+    pool.query(queryText, [trivia.question, trivia.correct_answer, trivia.incorrect1, trivia.incorrect2, trivia.incorrect3, questionId])
+    .then(response => {
+        res.sendStatus(201);
+    })
+    .catch(err => {
+        alert('Unable to update question, please try again later.');
+        console.log('error in updating question in db', err);
         res.sendStatus(500);
     })
 })
