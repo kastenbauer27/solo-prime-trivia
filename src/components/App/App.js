@@ -22,6 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
 import SavedTrivia from '../SavedTrivia/SavedTrivia';
+import PlayView from '../PlayView/PlayView';
 
 class App extends Component {
   componentDidMount() {
@@ -64,11 +65,18 @@ class App extends Component {
             />
 
             <ProtectedRoute
-              // logged in shows InfoPage else shows LoginPage
+              
               exact
               path="/savedtrivia"
               component={SavedTrivia}
             />
+
+            <ProtectedRoute
+              
+              exact
+              path="/play"
+              component={PlayView}
+            />            
 
             {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will

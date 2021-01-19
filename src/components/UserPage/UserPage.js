@@ -15,6 +15,11 @@ class UserPage extends Component {
     this.props.history.push('/savedtrivia');
   }
 
+  startTriviaGame = () => {
+    this.props.dispatch({ type: 'FETCH_TRIVIA' });
+    this.props.history.push('/play');
+  }
+
   render() {
     return (
       <div>
@@ -22,6 +27,7 @@ class UserPage extends Component {
         <p>Your ID is: {this.props.store.user.id}</p>
         <button onClick={this.addTrivia}>Add Trivia Questions</button>
         <button onClick={this.viewSavedTrivia}>Saved Trivia Questions</button>
+        <button onClick={this.startTriviaGame}>Start Trivia Game</button>
         <LogOutButton className="log-in" />
       </div>
     );
