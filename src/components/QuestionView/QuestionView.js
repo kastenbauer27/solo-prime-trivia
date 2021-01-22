@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
+import { withRouter } from 'react-router-dom';
 
 class QuestionView extends Component {
     constructor (props, context) {
@@ -17,49 +18,44 @@ class QuestionView extends Component {
         this.setState({questions: trivia});
       }
 
-    //   setTrivia = (trivia) => {
-    //     this.setState({questions: trivia});
-    //   }
-
       componentDidUpdate(prevProps) {
         if (prevProps.store.trivia !== this.props.store.trivia) {
             const trivia = this.props.store.trivia;
             this.setState({questions: trivia});
         }
       }
-
-    //   scoreCalc = () => {
-    //     this.state.questions.forEach((questions, i) => {
-    //         const answer = this.state.answers[i];
-    //         const correct_answer = questions.correct_answer;
-    //         let userScore = 0;
-    //         if (answer === correct_answer){
-    //             userScore += 1;
-    //         }
-    //         this.props.dispatch({
-    //             type: 'SET_SCORE',
-    //             payload: {correct: userScore, totalQuestions: this.state.questions.length}
-    //         })
-    //     })
-    //   }
       
       handleNext () {
-         let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1
-         this.setState({currentQuestionIndex: incrementCurrentQuestionIndex})
+         let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1;
+         this.setState({currentQuestionIndex: incrementCurrentQuestionIndex});
       }
       
       onChangeOption (value) {
-        const { currentQuestionIndex } = this.state
-        let answers = [...this.state.answers]
+        const { currentQuestionIndex } = this.state;
+        let answers = [...this.state.answers];
         let correct_answer = this.state.questions[currentQuestionIndex].correct_answer;
-        answers[currentQuestionIndex] = value
-        
+        answers[currentQuestionIndex] = value;
         this.setState({answers})
         if ( value === correct_answer ){
             this.props.dispatch({
-                type: 'INCREMENT_SCORE'
-            })
+                type: 'INCREMENT_SCORE',
+            });
         }
+      }
+
+      backToProfile = () => {
+          this.props.history.push('/user');
+          this.props.dispatch({
+            type: 'RESET_SCORE'
+        })
+      }
+
+      reviewQuestions = () => {
+          this.props.history.push('/review');
+          this.props.dispatch({
+            type: 'SET_ANSWERS',
+            payload: this.state.answers
+        });
       }
       
       render() {
@@ -75,8 +71,8 @@ class QuestionView extends Component {
         <div>
           <h3>End of the Quiz!</h3>
           <h2>You got {this.props.store.score} questions correct out of {questions.length}</h2>
-          <button>Review Questions</button>
-          <button>Back to Profile</button>
+          <button onClick={this.reviewQuestions}>Review Questions</button>
+          <button onClick={this.backToProfile}>Back to Profile</button>
         </div>
       )
     }
@@ -130,4 +126,4 @@ class QuestionView extends Component {
       }
 }
  
-export default connect(mapStoreToProps)(QuestionView);;
+export default withRouter(connect(mapStoreToProps)(QuestionView));

@@ -23,6 +23,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import './App.css';
 import SavedTrivia from '../SavedTrivia/SavedTrivia';
 import PlayView from '../PlayView/PlayView';
+import ReviewPage from '../ReviewPage/ReviewPage';
 
 class App extends Component {
   componentDidMount() {
@@ -76,7 +77,14 @@ class App extends Component {
               exact
               path="/play"
               component={PlayView}
-            />            
+            />
+
+            <ProtectedRoute
+              
+              exact
+              path="/review"
+              component={ReviewPage}
+            />             
 
             {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will
