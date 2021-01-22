@@ -20,6 +20,17 @@ function* fetchHistoryTrivia() {
     }
 }
 
+function* fetchQuestions(action) {
+    try {
+        let criteria = action.payload;
+        //const response = yield axios.get(`/api/trivia/${criteria}`);
+        const response = yield axios.get(`https://opentdb.com/api.php?amount=${criteria.amount}&category=${criteria.category}&difficulty=${criteria.difficulty}&type=multiple`);
+        yield put({ type: 'SET_TRIVIA', payload: response.data });
+    } catch (err) {
+        console.log('Trivia GET request failed', err);
+    }
+}
+
 function* addTrivia(action) {
     try {
         yield axios.post('/api/trivia', action.payload);
@@ -55,6 +66,7 @@ function* triviaSaga() {
     yield takeEvery('ADD_TRIVIA', addTrivia);
     yield takeEvery('DELETE_TRIVIA', deleteTrivia);
     yield takeEvery('UPDATE_TRIVIA', updateTrivia);
+    yield takeEvery('FETCH_QUESTIONS', fetchQuestions);
 }
 
 export default triviaSaga;

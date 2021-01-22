@@ -14,21 +14,35 @@ router.get('/', (req, res) => {
     })
 });
 
-router.get('/random', (req, res) => {
-    let quizKey = process.env.apiKey;
-    axios.get(`https://quizapi.io/api/v1/questions?apiKey=${quizKey}`)
-    .then(response => {
-        console.log('response', response);
-        res.send(response.data);
-    })
-    .catch(err => {
-        console.log('error in getting random quiz from api', err);
-        res.sendStatus(500);
-    })
-});
+// router.get('/random', (req, res) => {
+//     let quizKey = process.env.apiKey;
+//     axios.get(`https://quizapi.io/api/v1/questions?apiKey=${quizKey}`)
+//     .then(response => {
+//         console.log('response', response);
+//         res.send(response.data);
+//     })
+//     .catch(err => {
+//         console.log('error in getting random quiz from api', err);
+//         res.sendStatus(500);
+//     })
+// });
 
-router.get('/history', (req, res) => {
-    axios.get(`https://opentdb.com/api.php?amount=10&category=23&difficulty=medium&type=multiple`)
+// router.get('/history', (req, res) => {
+//     axios.get(`https://opentdb.com/api.php?amount=10&category=23&difficulty=medium&type=multiple`)
+//     .then(response => {
+//         console.log('response', response);
+//         res.send(response.data.results);
+//     })
+//     .catch(err => {
+//         console.log('error in getting random quiz from api', err);
+//         res.sendStatus(500);
+//     })
+// });
+
+router.get('/:criteria', (req, res) => {
+    let criteria = req.params.criteria;
+    console.log('search criteria is:', criteria.amount);
+    axios.get(`https://opentdb.com/api.php?amount=${criteria.amount}&category=${criteria.category}&difficulty=${criteria.difficulty}&type=multiple`)
     .then(response => {
         console.log('response', response);
         res.send(response.data.results);
