@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 
-const triviaArray = [];
-
 class QuestionView extends Component {
     constructor (props, context) {
         super(props, context)
@@ -14,31 +12,36 @@ class QuestionView extends Component {
         }
       }
 
-      
       componentDidMount() {
-        // Do your axios call and set the questions state.
-        // For the sake of simplicity,I'll be using my array.
-        // this.props.dispatch({
-        //     type: 'FETCH_QUESTIONS',
-        //     payload: this.props.criteria
-        // })
-        let trivia = this.props.store.trivia;
-        for(let i = 0; i < trivia.length; i++){
-            triviaArray.push(trivia[i]);
-        }
-        this.setState({questions: triviaArray});
-        
+        const trivia = this.props.store.trivia;
+        this.setState({questions: trivia});
       }
 
-      componentDidUpdate(prevProps, prevState) {
+    //   setTrivia = (trivia) => {
+    //     this.setState({questions: trivia});
+    //   }
+
+      componentDidUpdate(prevProps) {
         if (prevProps.store.trivia !== this.props.store.trivia) {
-            let trivia = this.props.store.trivia;
-            for(let i = 0; i < trivia.length; i++){
-                triviaArray.push(trivia[i]);
-            }
-            this.setState({questions: triviaArray});
+            const trivia = this.props.store.trivia;
+            this.setState({questions: trivia});
         }
       }
+
+    //   scoreCalc = () => {
+    //     this.state.questions.forEach((questions, i) => {
+    //         const answer = this.state.answers[i];
+    //         const correct_answer = questions.correct_answer;
+    //         let userScore = 0;
+    //         if (answer === correct_answer){
+    //             userScore += 1;
+    //         }
+    //         this.props.dispatch({
+    //             type: 'SET_SCORE',
+    //             payload: {correct: userScore, totalQuestions: this.state.questions.length}
+    //         })
+    //     })
+    //   }
       
       handleNext () {
          let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1
@@ -48,9 +51,15 @@ class QuestionView extends Component {
       onChangeOption (value) {
         const { currentQuestionIndex } = this.state
         let answers = [...this.state.answers]
+        let correct_answer = this.state.questions[currentQuestionIndex].correct_answer;
         answers[currentQuestionIndex] = value
         
-        this.setState({answers}) 
+        this.setState({answers})
+        if ( value === correct_answer ){
+            this.props.dispatch({
+                type: 'INCREMENT_SCORE'
+            })
+        }
       }
       
       render() {
@@ -65,6 +74,9 @@ class QuestionView extends Component {
       return (
         <div>
           <h3>End of the Quiz!</h3>
+          <h2>You got {this.props.store.score} questions correct out of {questions.length}</h2>
+          <button>Review Questions</button>
+          <button>Back to Profile</button>
         </div>
       )
     }
