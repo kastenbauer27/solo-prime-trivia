@@ -9,7 +9,7 @@ class PlayView extends Component {
 
  render() {
      return (
-         <QuestionView trivia={this.props.store.trivia}/>
+         <QuestionView />
      )
  }
     

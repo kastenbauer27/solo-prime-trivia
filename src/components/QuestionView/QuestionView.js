@@ -12,14 +12,16 @@ class QuestionView extends Component {
           questions: [],
           answers: []
         }
-        
       }
 
       
       componentDidMount() {
         // Do your axios call and set the questions state.
         // For the sake of simplicity,I'll be using my array.
-        this.props.dispatch({ type: 'FETCH_TRIVIA' });
+        // this.props.dispatch({
+        //     type: 'FETCH_QUESTIONS',
+        //     payload: this.props.criteria
+        // })
         let trivia = this.props.store.trivia;
         for(let i = 0; i < trivia.length; i++){
             triviaArray.push(trivia[i]);
@@ -28,7 +30,15 @@ class QuestionView extends Component {
         
       }
 
-
+      componentDidUpdate(prevProps, prevState) {
+        if (prevProps.store.trivia !== this.props.store.trivia) {
+            let trivia = this.props.store.trivia;
+            for(let i = 0; i < trivia.length; i++){
+                triviaArray.push(trivia[i]);
+            }
+            this.setState({questions: triviaArray});
+        }
+      }
       
       handleNext () {
          let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1
@@ -44,9 +54,9 @@ class QuestionView extends Component {
       }
       
       render() {
-         console.log(this.state);
-        console.log(this.state.questions);       
+                
         const { questions, currentQuestionIndex, answers } = this.state
+        console.log(this.state);
         if (!questions.length) {
           return <div> Loading questions...</div>
         }
@@ -59,7 +69,12 @@ class QuestionView extends Component {
       )
     }
         
-        const { question, correct_answer, incorrect1, incorrect2, incorrect3 } = questions[currentQuestionIndex]
+        //const { question, correct_answer, incorrect1, incorrect2, incorrect3 } = questions[currentQuestionIndex]
+        const question = questions[currentQuestionIndex].question;
+        const correct_answer = questions[currentQuestionIndex].correct_answer;
+        const incorrect1 = questions[currentQuestionIndex].incorrect_answers[0];
+        const incorrect2 = questions[currentQuestionIndex].incorrect_answers[1];
+        const incorrect3 = questions[currentQuestionIndex].incorrect_answers[2];
       
         return (<div>
             <h1>Question {currentQuestionIndex + 1}</h1>

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
+import { withRouter, Router, Route } from 'react-router-dom';
+import PlayView from '../PlayView/PlayView';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+
 
 class GameCriteria extends Component {
     state = { 
@@ -27,10 +31,11 @@ class GameCriteria extends Component {
             type: 'FETCH_QUESTIONS',
             payload: this.state.searchCriteria
         })
+        this.props.history.push('/play'); 
     }
 
     render() { 
-        return ( 
+        return (<div> 
             <form onSubmit={this.submitGameCriteria}>
                 <label>Number of Questions</label>
                 <input type="number" max="50" onChange={(event) => this.handleChangeFor(event, 'amount')} />
@@ -53,8 +58,12 @@ class GameCriteria extends Component {
                 </select>          
                 <button type="submit">Play Trivia</button>
             </form>
+            
+                {/* <PlayView criteria={this.state.searchCriteria} /> */}
+            
+            </div>
          );
     }
 }
  
-export default connect(mapStoreToProps)(GameCriteria);
+export default withRouter(connect(mapStoreToProps)(GameCriteria));

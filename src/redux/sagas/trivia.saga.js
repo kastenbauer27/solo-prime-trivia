@@ -25,7 +25,7 @@ function* fetchQuestions(action) {
         let criteria = action.payload;
         //const response = yield axios.get(`/api/trivia/${criteria}`);
         const response = yield axios.get(`https://opentdb.com/api.php?amount=${criteria.amount}&category=${criteria.category}&difficulty=${criteria.difficulty}&type=multiple`);
-        yield put({ type: 'SET_TRIVIA', payload: response.data });
+        yield put({ type: 'SET_TRIVIA', payload: response.data.results });
     } catch (err) {
         console.log('Trivia GET request failed', err);
     }
