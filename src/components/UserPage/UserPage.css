@@ -1,0 +1,18 @@
+h1 {
+    margin: 30px;
+    color: #12232E;
+}
+
+.game-criteria {
+    margin: 30px;
+    margin-top: 50px;
+}
+
+.log-out {
+    margin: 30px;
+}
+
+#play-trivia {
+    text-align: left;
+    color: #12232E;
+}

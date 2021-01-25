@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 import { withRouter } from 'react-router-dom';
+import './QuestionView.css';
+import Button from '@material-ui/core/Button';
 
 class QuestionView extends Component {
     constructor (props, context) {
@@ -63,16 +65,18 @@ class QuestionView extends Component {
         const { questions, currentQuestionIndex, answers } = this.state
         console.log(this.state);
         if (!questions.length) {
-          return <div> Loading questions...</div>
+          return <h4> Loading questions...</h4>
         }
 
     if (currentQuestionIndex >= questions.length) {
       return (
         <div>
-          <h3>End of the Quiz!</h3>
-          <h2>You got {this.props.store.score} questions correct out of {questions.length}</h2>
-          <button onClick={this.reviewQuestions}>Review Questions</button>
-          <button onClick={this.backToProfile}>Back to Profile</button>
+          <h1>End of the Quiz!</h1>
+          <h4>You got {this.props.store.score} out of {questions.length} questions correct</h4>
+          <div className="button-div">
+          <Button variant="contained" id="review-btn" onClick={this.reviewQuestions}>Review Questions</Button>
+          {/* <Button variant="contained" id="profile-btn" onClick={this.backToProfile}>Back to Profile</Button> */}
+          </div>
         </div>
       )
     }
@@ -88,8 +92,8 @@ class QuestionView extends Component {
             <h1>Question {currentQuestionIndex + 1}</h1>
             <h4>{question}</h4>
             
-              <label>
-                <input type='radio'
+              <label className="trivia-label">
+                <input type='radio' className="trivia-input"
                   checked={answers[currentQuestionIndex] === correct_answer}
                   value={correct_answer}
                   onChange={(evt) => this.onChangeOption(evt.target.value)}/>
@@ -97,31 +101,32 @@ class QuestionView extends Component {
               </label>
             <br/>
             
-              <label>
-                <input type='radio'
+              <label className="trivia-label">
+                <input type='radio' className="trivia-input"
                   checked={answers[currentQuestionIndex] === incorrect1}
                   value={incorrect1}
                   onChange={(evt) => this.onChangeOption(evt.target.value)}/>
                 {incorrect1}
               </label>
               <br/>
-              <label>
-                <input type='radio'
+              <label className="trivia-label">
+                <input type='radio' className="trivia-input"
                   checked={answers[currentQuestionIndex] === incorrect2}
                   value={incorrect2}
                   onChange={(evt) => this.onChangeOption(evt.target.value)}/>
                 {incorrect2}
               </label>
               <br/>
-              <label>
-                <input type='radio'
+              <label className="trivia-label">
+                <input type='radio' className="trivia-input"
                   checked={answers[currentQuestionIndex] === incorrect3}
                   value={incorrect3}
                   onChange={(evt) => this.onChangeOption(evt.target.value)}/>
                 {incorrect3}
               </label>
+            
+            <Button variant="contained" id="next-btn" onClick={() => this.handleNext()}>Next</Button>
             <hr/>
-            <button onClick={() => this.handleNext()}>Next</button>
           </div>);
       }
 }

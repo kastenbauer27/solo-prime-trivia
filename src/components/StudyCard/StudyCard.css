@@ -1,0 +1,11 @@
+.studyCard {
+    width: 500px;
+    padding: 15px;
+}
+
+#study-btn {
+    margin-top: 20px;
+    background-color:  #007CC7;
+    margin-right: 5px;
+}
+

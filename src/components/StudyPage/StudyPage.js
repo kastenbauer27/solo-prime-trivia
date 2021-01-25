@@ -2,6 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 import StudyCard from '../StudyCard/StudyCard';
+import './StudyPage.css';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = (theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 220,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+  });
 
 class StudyPage extends Component {
     state = { 
@@ -19,22 +39,24 @@ class StudyPage extends Component {
         })
     }
 
-    render() { 
+    render() {
+        const { classes } = this.props; 
         return (
             <div>
             <div>
                 <h1>Study Page</h1>
-                <h2>Select a category to study</h2>
-                <select onChange={(event) => this.handleChangeFor(event)}>
-                <option value="General Knowledge">General Knowledge</option>
-                <option value="Science & Nature">Science and Nature</option>
-                <option value="Sports">Sports</option>
-                <option value="Mythology">Mythology</option>
-                <option value="History">History</option>
-                <option value="Celebrities">Celebrities</option>
-                <option value="Entertainment: Books">Books</option>
-                <option value="Entertainment: Film">Film</option>
-                </select>
+                <FormControl id="study-form">
+                <Select id="study-select" onChange={(event) => this.handleChangeFor(event)}>
+                <MenuItem value="General Knowledge">General Knowledge</MenuItem>
+                <MenuItem value="Science & Nature">Science and Nature</MenuItem>
+                <MenuItem value="Sports">Sports</MenuItem>
+                <MenuItem value="Mythology">Mythology</MenuItem>
+                <MenuItem value="History">History</MenuItem>
+                <MenuItem value="Celebrities">Celebrities</MenuItem>
+                <MenuItem value="Entertainment: Books">Books</MenuItem>
+                <MenuItem value="Entertainment: Film">Film</MenuItem>
+                </Select>
+                </FormControl>
                 </div>
                 <StudyCard />
             </div> 
@@ -42,4 +64,4 @@ class StudyPage extends Component {
     }
 }
  
-export default connect(mapStoreToProps)(StudyPage);;
+export default connect(mapStoreToProps)(StudyPage);

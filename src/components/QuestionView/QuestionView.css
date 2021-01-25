@@ -1,0 +1,49 @@
+h4 {
+    margin-left: 30px;
+    font-size: 38px;
+    color: #203647;
+}
+
+h1 {
+    font-size: 42px;
+    color: #203647;
+}
+
+.trivia-input {
+    margin-left: 45px;
+    margin-bottom: 15px;
+}
+
+.trivia-label {
+    font-size: 30px;
+    color: #203647;
+}
+
+#next-btn {
+    float: right;
+    margin-right: 45px;
+    margin-bottom: 15px;
+    height: 45px;
+    width: 100px;
+    background-color: #007CC7;
+    color: #EEFBFB;
+}
+
+hr {
+    margin-top: 30px;
+}
+
+.button-div {
+    margin-left: 30px;
+}
+
+#review-btn {
+    margin-right: 15px;
+    background-color: #007CC7;
+    color: #EEFBFB;
+}
+
+#profile-btn {
+    background-color: #007CC7;
+    color: #EEFBFB;
+}

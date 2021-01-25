@@ -21,21 +21,21 @@ class SavedQuestion extends Component {
         })
     }
 
-    saveChanges = (event, trivia) => {
-        event.preventDefault();
-        let triviaToUpdate = {trivia: this.state.trivia, id: trivia.id};
-        console.log(triviaToUpdate);
-        this.props.dispatch({
-            type: 'UPDATE_TRIVIA',
-            payload: {trivia: this.state.trivia, id: trivia.id}
-        });
-        this.props.history.push('/study');
-    }
+    // saveChanges = (event, trivia) => {
+    //     event.preventDefault();
+    //     let triviaToUpdate = {trivia: this.state.trivia, id: trivia.id};
+    //     console.log(triviaToUpdate);
+    //     this.props.dispatch({
+    //         type: 'UPDATE_TRIVIA',
+    //         payload: {trivia: this.state.trivia, id: trivia.id}
+    //     });
+    //     this.props.history.push('/study');
+    // }
     render() { 
         console.log(this.state);
         return (
             <div key={this.props.trivia.id}>
-            <form onSubmit={(event) => this.saveChanges(event, this.props.trivia)}>
+            <form onSubmit={(event) => this.props.saveChanges(event, this.props.trivia)}>
                 <textarea defaultValue={this.props.trivia.question} onChange={(event) => this.handleChangeFor(event, 'question')}></textarea>
                 <input type="text" defaultValue={this.props.trivia.correct_answer} onChange={(event) => this.handleChangeFor(event, 'correct_answer')}></input>
                 <button type="submit">Save Changes</button>
