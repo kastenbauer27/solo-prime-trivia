@@ -4,6 +4,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 import GameCriteria from '../GameCriteria/GameCriteria';
 
+
 class UserPage extends Component {
   // this component doesn't do much to start, just renders some user info to the DOM
   addTrivia = () => {
@@ -25,7 +26,7 @@ class UserPage extends Component {
     return (
       <div>
         <h1 id="welcome">Welcome, {this.props.store.user.username}!</h1>
-        <p>Your ID is: {this.props.store.user.id}</p>
+        {/* <p>Your ID is: {this.props.store.user.id}</p> */}
         {/* <button onClick={this.addTrivia}>Add Trivia Questions</button>
         <button onClick={this.viewSavedTrivia}>Saved Trivia Questions</button>
         <button onClick={this.startTriviaGame}>Start Trivia Game</button> */}

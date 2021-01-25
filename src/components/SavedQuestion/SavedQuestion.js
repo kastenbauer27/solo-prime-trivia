@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
+import { withRouter } from 'react-router-dom';
 
 class SavedQuestion extends Component {
     state = { 
         trivia: {
             question: this.props.trivia.question,
             correct_answer: this.props.trivia.correct_answer, 
-            incorrect1: this.props.trivia.incorrect1,
-            incorrect2: this.props.trivia.incorrect2,
-            incorrect3: this.props.trivia.incorrect3,
         }
      }
 
@@ -31,6 +29,7 @@ class SavedQuestion extends Component {
             type: 'UPDATE_TRIVIA',
             payload: {trivia: this.state.trivia, id: trivia.id}
         });
+        this.props.history.push('/study');
     }
     render() { 
         console.log(this.state);
@@ -39,9 +38,6 @@ class SavedQuestion extends Component {
             <form onSubmit={(event) => this.saveChanges(event, this.props.trivia)}>
                 <textarea defaultValue={this.props.trivia.question} onChange={(event) => this.handleChangeFor(event, 'question')}></textarea>
                 <input type="text" defaultValue={this.props.trivia.correct_answer} onChange={(event) => this.handleChangeFor(event, 'correct_answer')}></input>
-                <input type="text" defaultValue={this.props.trivia.incorrect1} onChange={(event) => this.handleChangeFor(event, 'incorrect1')}></input>
-                <input type="text" defaultValue={this.props.trivia.incorrect2} onChange={(event) => this.handleChangeFor(event, 'incorrect2')}></input>
-                <input type="text" defaultValue={this.props.trivia.incorrect3} onChange={(event) => this.handleChangeFor(event, 'incorrect3')}></input>
                 <button type="submit">Save Changes</button>
             </form>
             </div>
@@ -49,4 +45,4 @@ class SavedQuestion extends Component {
     }
 }
  
-export default connect(mapStoreToProps)(SavedQuestion);
+export default withRouter(connect(mapStoreToProps)(SavedQuestion));

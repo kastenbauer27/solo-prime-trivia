@@ -31,6 +31,24 @@ function* fetchQuestions(action) {
     }
 }
 
+function* fetchStudy() {
+    try {
+        const response = yield axios.get('/api/trivia/study');
+        yield put({ type: 'SET_STUDY', payload: response.data });
+    } catch (err) {
+        console.log('failed to FETCH study', err);
+    }
+}
+
+function* fetchStudyCategory(action) {
+    try {
+        const response = yield axios.get(`/api/trivia/study/${action.payload}`);
+        yield put({ type: 'SET_STUDY', payload: response.data });
+    } catch (err) {
+        console.log('failed to FETCH study', err);
+    }
+}
+
 function* addTrivia(action) {
     try {
         yield axios.post('/api/trivia', action.payload);
@@ -41,11 +59,21 @@ function* addTrivia(action) {
     }
 }
 
+function* addToStudy(action) {
+    try {
+        yield axios.post('/api/trivia/study', action.payload);
+        console.log('adding question to study set:', action.payload);
+        yield put({ type: 'FETCH_STUDY' });
+    } catch (err) {
+        console.log('error in posting to study set', err);
+    }
+}
+
 function* deleteTrivia(action) {
     try {
         console.log(`deleting trivia with id of: ${action.payload}`);
-        yield axios.delete(`/api/trivia/${action.payload}`);
-        yield put({ type: 'FETCH_TRIVIA' });
+        yield axios.delete(`/api/trivia/study/${action.payload}`);
+        yield put({ type: 'FETCH_STUDY' });
     } catch (err) {
         console.log('error in deleting trivia', err);
     }
@@ -53,8 +81,8 @@ function* deleteTrivia(action) {
 
 function* updateTrivia(action) {
     try {
-        yield axios.put(`/api/trivia/${action.payload.id}`, action.payload.trivia);
-        yield put({ type: 'FETCH_TRIVIA' });
+        yield axios.put(`/api/trivia/study/${action.payload.id}`, action.payload.trivia);
+        yield put({ type: 'FETCH_STUDY' });
     } catch (err) {
         console.log('error in updating trivia question.');
     }
@@ -67,6 +95,9 @@ function* triviaSaga() {
     yield takeEvery('DELETE_TRIVIA', deleteTrivia);
     yield takeEvery('UPDATE_TRIVIA', updateTrivia);
     yield takeEvery('FETCH_QUESTIONS', fetchQuestions);
+    yield takeEvery('ADD_TO_STUDY', addToStudy);
+    yield takeEvery('FETCH_STUDY', fetchStudy);
+    yield takeEvery('FETCH_STUDY_CATEGORY', fetchStudyCategory);
 }
 
 export default triviaSaga;

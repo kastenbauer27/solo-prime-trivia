@@ -24,6 +24,7 @@ import './App.css';
 import SavedTrivia from '../SavedTrivia/SavedTrivia';
 import PlayView from '../PlayView/PlayView';
 import ReviewPage from '../ReviewPage/ReviewPage';
+import StudyPage from '../StudyPage/StudyPage';
 
 class App extends Component {
   componentDidMount() {
@@ -64,6 +65,13 @@ class App extends Component {
               path="/trivia"
               component={TriviaPlay}
             />
+
+            <ProtectedRoute
+              // logged in shows InfoPage else shows LoginPage
+              exact
+              path="/study"
+              component={StudyPage}
+            />            
 
             <ProtectedRoute
               

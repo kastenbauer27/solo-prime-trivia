@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
-import { withRouter, Router, Route } from 'react-router-dom';
-import PlayView from '../PlayView/PlayView';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { withRouter} from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+const styles = (theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 220,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+});
+
 
 
 class GameCriteria extends Component {
@@ -35,30 +50,44 @@ class GameCriteria extends Component {
     }
 
     render() { 
+        const { classes } = this.props;
         return (<div> 
-            <form onSubmit={this.submitGameCriteria}>
-                <label>Number of Questions</label>
-                <input type="number" max="50" onChange={(event) => this.handleChangeFor(event, 'amount')} />
-                <label>Category</label>
-                <select onChange={(event) => this.handleChangeFor(event, 'category')}>
-                <option value="9">General Knowledge</option>
-                <option value="17">Science and Nature</option>
-                <option value="21">Sports</option>
-                <option value="20">Mythology</option>
-                <option value="23">History</option>
-                <option value="26">Celebrities</option>
-                <option value="10">Books</option>
-                <option value="11">Film</option>
-                </select>          
-                <label>Difficulty</label>
-                <select onChange={(event) => this.handleChangeFor(event, 'difficulty')}>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-                </select>          
-                <button type="submit">Play Trivia</button>
-            </form>
-            
+            <FormControl className={classes.formControl}>
+                <InputLabel id="number-select-label">Number of Questions</InputLabel>
+                <Select labelId="number-select-label" id="number-select" onChange={(event) => this.handleChangeFor(event, 'amount')} >
+                    <MenuItem value="" disabled> Number of Questions</MenuItem>
+                    <MenuItem value="3">3</MenuItem>
+                    <MenuItem value="5">5</MenuItem>
+                    <MenuItem value="10">10</MenuItem>
+                    <MenuItem value="15">15</MenuItem>
+                    <MenuItem value="20">20</MenuItem>
+                    <MenuItem value="30">30</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="category-select-label">Category</InputLabel>
+                <Select labelId="category-select-label" id="category-select" onChange={(event) => this.handleChangeFor(event, 'category')}>
+                    <MenuItem value="" disabled> Category</MenuItem>
+                    <MenuItem value="9">General Knowledge</MenuItem>
+                    <MenuItem value="17">Science and Nature</MenuItem>
+                    <MenuItem value="21">Sports</MenuItem>
+                    <MenuItem value="20">Mythology</MenuItem>
+                    <MenuItem value="23">History</MenuItem>
+                    <MenuItem value="26">Celebrities</MenuItem>
+                    <MenuItem value="10">Books</MenuItem>
+                    <MenuItem value="11">Film</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>          
+                <InputLabel id="difficulty-select-label">Difficulty</InputLabel>
+                <Select labelId="difficulty-select-label" id="difficulty-select" onChange={(event) => this.handleChangeFor(event, 'difficulty')}>
+                    <MenuItem value="" disabled>Difficulty</MenuItem>
+                    <MenuItem value="easy">Easy</MenuItem>
+                    <MenuItem value="medium">Medium</MenuItem>
+                    <MenuItem value="hard">Hard</MenuItem>
+                </Select>             
+            </FormControl>
+            <button type="submit" onSubmit={this.submitGameCriteria}>Play Trivia</button>
                 {/* <PlayView criteria={this.state.searchCriteria} /> */}
             
             </div>
@@ -66,4 +95,4 @@ class GameCriteria extends Component {
     }
 }
  
-export default withRouter(connect(mapStoreToProps)(GameCriteria));
+export default withRouter(withStyles(styles, {withTheme: true}, connect(mapStoreToProps))(GameCriteria));

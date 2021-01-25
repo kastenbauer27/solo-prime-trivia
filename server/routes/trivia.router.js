@@ -10,7 +10,27 @@ router.get('/', (req, res) => {
     pool.query(queryText).then(result => {
         res.send(result.rows);
     }).catch(err => {
-        console.log('error in getting trivia from db');
+        console.log('error in getting trivia from db', err);
+    })
+});
+
+router.get('/study', (req, res) => {
+    const queryText = `SELECT * FROM "study_cards" ORDER BY "id" ASC`;
+    pool.query(queryText).then(result => {
+        res.send(result.rows);
+    }).catch(err => {
+        console.log('error in getting trivia from db', err);
+    })
+});
+
+router.get('/study/:category', (req, res) => {
+    const category = req.params.category;
+    const queryText = `SELECT * FROM "study_cards" WHERE "category"=$1 ORDER BY "id" ASC`;
+    pool.query(queryText, [category]).then(result => {
+        console.log('getting category', category);
+        res.send(result.rows);
+    }).catch(err => {
+        console.log('error in getting trivia from db', err);
     })
 });
 
@@ -68,9 +88,24 @@ router.post('/', (req, res) => {
     })
 });
 
-router.delete('/:id', (req, res) => {
+router.post('/study', (req, res) => {
+    const queryText = `INSERT INTO "study_cards" ("category", "question", "correct_answer", "incorrect1", "incorrect2", "incorrect3")
+                       VALUES ($1, $2, $3, $4, $5, $6);`;
+    const triviaToAdd = req.body;
+    pool.query(queryText, [triviaToAdd.category, triviaToAdd.question, triviaToAdd.correct_answer, triviaToAdd.incorrect_answers[0], triviaToAdd.incorrect_answers[1], triviaToAdd.incorrect_answers[2]])
+    .then(response => {
+        res.sendStatus(201);
+    })
+    .catch(err => {
+        console.log('error in adding trivia question to db', err);
+        alert('Unable to add question at this time, please try again later.');
+        res.sendStatus(500);
+    })
+});
+
+router.delete('/study/:id', (req, res) => {
     const questionId = req.params.id;
-    const queryText = `DELETE FROM "trivia_questions" WHERE "id"=$1;`;
+    const queryText = `DELETE FROM "study_cards" WHERE "id"=$1;`;
     pool.query(queryText, [questionId])
     .then(response => {
         res.sendStatus(200);
@@ -82,13 +117,13 @@ router.delete('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/study/:id', (req, res) => {
     const questionId = req.params.id;
     const trivia = req.body;
-    const queryText =  `UPDATE "trivia_questions" 
-                        SET "question"=$1, "correct_answer"=$2, "incorrect1"=$3, "incorrect2"=$4, "incorrect3"=$5
-                        WHERE "trivia_questions".id=$6;`;
-    pool.query(queryText, [trivia.question, trivia.correct_answer, trivia.incorrect1, trivia.incorrect2, trivia.incorrect3, questionId])
+    const queryText =  `UPDATE "study_cards" 
+                        SET "question"=$1, "correct_answer"=$2
+                        WHERE "id"=$3;`;
+    pool.query(queryText, [trivia.question, trivia.correct_answer, questionId])
     .then(response => {
         res.sendStatus(201);
     })

@@ -5,6 +5,7 @@ import trivia from './trivia.reducer';
 import question from './question.reducer';
 import score from './score.reducer';
 import answers from './answers.reducer';
+import study from './study.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   question,
   score,
   answers,
+  study,
 });
 
 export default rootReducer;
